@@ -32,6 +32,7 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
 import org.jfrog.build.api.util.Log;
 import org.jfrog.build.client.PreemptiveHttpClient;
+import com.jfrog.xray.client.impl.xsc.XscClient;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,16 +46,24 @@ import java.util.List;
  * @author Roman Gurevitch
  */
 public class XrayClient extends PreemptiveHttpClient implements Xray {
+    private XscClient xscClient;
     private static final ObjectMapper mapper = ObjectMapperHelper.get();
     private static final String API_BASE = "/api/v1/";
-
     private final String baseApiUrl;
     private final Log log;
 
     public XrayClient(PoolingHttpClientConnectionManager connectionManager, BasicCredentialsProvider credentialsProvider, String accessToken, AuthCache authCache, HttpClientBuilder clientBuilder, int connectionRetries, Log log, String url) {
         super(connectionManager, credentialsProvider, accessToken, authCache, clientBuilder, connectionRetries, log);
+
         this.baseApiUrl = URIUtil.concatUrl(url, API_BASE);
         this.log = log;
+
+
+        this.xscClient = new XscClient(connectionManager, credentialsProvider, accessToken, authCache, clientBuilder, connectionRetries, log, url);
+    }
+
+    public XscClient getXscClient() {
+        return this.xscClient;
     }
 
     private static boolean statusNotOk(int statusCode) {
@@ -112,6 +121,19 @@ public class XrayClient extends PreemptiveHttpClient implements Xray {
         HttpEntity requestEntity = new ByteArrayEntity(body, ContentType.APPLICATION_JSON);
         postRequest.setEntity(requestEntity);
         return setHeadersAndExecute(postRequest);
+    }
+
+    public CloseableHttpResponse put(String uri, Object payload) throws IOException {
+        return put(uri, payload, mapper);
+    }
+
+    public CloseableHttpResponse put(String uri, Object payload, ObjectMapper mapper) throws IOException {
+        HttpPut putRequest = new HttpPut(createUrl(uri));
+        byte[] body = mapper.writeValueAsBytes(payload);
+        log.debug("PUT" + putRequest.getURI() + "\n" + new String(body, StandardCharsets.UTF_8));
+        HttpEntity requestEntity = new ByteArrayEntity(body, ContentType.APPLICATION_JSON);
+        putRequest.setEntity(requestEntity);
+        return setHeadersAndExecute(putRequest);
     }
 
     private String createUrl(String queryPath) {
