@@ -3,7 +3,7 @@ package com.jfrog.xray.client.impl.xsc.types;
 public class EndScanRequest extends ScanRequest {
     private Integer totalFindings;
     private Integer totalIgnoredFindings;
-    private Integer totalScanDuration; // Changed to String
+    private Integer totalScanDuration;
     private String multiScanId;
 
     public EndScanRequest(
@@ -43,7 +43,7 @@ public class EndScanRequest extends ScanRequest {
                 "\"is_default_config\":" + this.isDefaultConfig + "," +
                 "\"machine_id\":\"" + this.machineId + "\"," +
                 "\"analyzer_manager_version\":\"" + this.analyzerManagerVersion + "\"," +
-                "\"total_findings\":" +  totalFindings + "," +
+                "\"total_findings\":" + totalFindings + "," +
                 "\"total_ignored_findings\":" + totalIgnoredFindings + "," +
                 "\"total_scan_duration\":\"" + totalScanDuration + "\"," +
                 "\"multi_scan_id\":\"" + multiScanId + "\"" +

@@ -10,6 +10,7 @@ import com.jfrog.xray.client.impl.services.system.SystemImpl;
 import com.jfrog.xray.client.impl.util.JFrogInactiveEnvironmentException;
 import com.jfrog.xray.client.impl.util.ObjectMapperHelper;
 import com.jfrog.xray.client.impl.util.URIUtil;
+import com.jfrog.xray.client.impl.xsc.XscClient;
 import com.jfrog.xray.client.services.details.Details;
 import com.jfrog.xray.client.services.entitlements.Entitlements;
 import com.jfrog.xray.client.services.scan.Scan;
@@ -32,7 +33,6 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
 import org.jfrog.build.api.util.Log;
 import org.jfrog.build.client.PreemptiveHttpClient;
-import com.jfrog.xray.client.impl.xsc.XscClient;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,7 +1,6 @@
 package com.jfrog.xray.client.impl.xsc.types;
 
 
-
 public class ScanRequest {
 
     protected ScanEventType eventType;

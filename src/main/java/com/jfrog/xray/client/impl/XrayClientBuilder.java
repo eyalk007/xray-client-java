@@ -18,9 +18,9 @@ public class XrayClientBuilder extends PreemptiveHttpClientBuilder {
 
     private String url = StringUtils.EMPTY;
 
-    public XrayClientBuilder(String userAgent ) {
+    public XrayClientBuilder(String userAgent) {
         String userAgentHeader = DEFAULT_USER_AGENT;
-        if(userAgent != null && !userAgent.isEmpty())  {
+        if (userAgent != null && !userAgent.isEmpty()) {
             userAgentHeader = userAgent;
         }
 
